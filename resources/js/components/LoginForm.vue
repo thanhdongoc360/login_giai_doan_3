@@ -1,20 +1,13 @@
 <template>
   <div style="max-width: 400px; margin: auto;">
     <h2>Đăng nhập</h2>
-    <form @submit.prevent="login">
-      <div>
-        <label>Email:</label>
-        <input type="email" v-model="email" required />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" v-model="password" required />
-      </div>
-      <button type="submit">Đăng nhập</button>
+    
+  <CForm>
+    <CFormInput label="Email" v-model="email" type="email" />
+    <CFormInput label="Password" v-model="password" type="password" />
+    <CButton color="primary" @click="login">Đăng nhập</CButton>
+  </CForm>
 
-      <p v-if="error" style="color:red">{{ error }}</p>
-      <p v-if="success" style="color:green">{{ success }}</p>
-    </form>
   </div>
 </template>
 
