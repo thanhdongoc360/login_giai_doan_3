@@ -1,13 +1,18 @@
 <template>
   <div style="max-width: 400px; margin: auto;">
     <h2>Đăng nhập</h2>
-    
-  <CForm>
-    <CFormInput label="Email" v-model="email" type="email" />
-    <CFormInput label="Password" v-model="password" type="password" />
-    <CButton color="primary" @click="login">Đăng nhập</CButton>
-  </CForm>
 
+    <!-- Thông báo lỗi -->
+    <p v-if="error" style="color: red">{{ error }}</p>
+
+    <!-- Thông báo thành công -->
+    <p v-if="success" style="color: green">{{ success }}</p>
+
+    <CForm>
+      <CFormInput label="Email" v-model="email" type="email" />
+      <CFormInput label="Password" v-model="password" type="password" />
+      <CButton color="primary" @click="login">Đăng nhập</CButton>
+    </CForm>
   </div>
 </template>
 
@@ -28,9 +33,10 @@ const login = async () => {
       email: email.value,
       password: password.value
     })
-    success.value = res.data.message
+    success.value = res.data.message || 'Đăng nhập thành công'
   } catch (e) {
-    error.value = e.response?.data?.message || 'Đăng nhập thất bại'
+    // Gán thông báo lỗi đơn giản
+    error.value = 'Tài khoản hoặc mật khẩu không chính xác'
   }
 }
 </script>
