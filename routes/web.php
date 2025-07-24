@@ -17,7 +17,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+use App\Http\Controllers\UserController;
+
+
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+    Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
 });
 

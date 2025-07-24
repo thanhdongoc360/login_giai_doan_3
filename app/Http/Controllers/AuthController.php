@@ -11,15 +11,20 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
+        \Log::info('Login attempt', $credentials);
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
+        \Log::info('User found:', [$user]);
+        if ($user && \Hash::check($credentials['password'], $user->password)) {
+            \Log::info('Password match!');
+        } else {
+            \Log::info('Password NOT match!');
+        }
+        if (\Auth::guard('web')->attempt($credentials)) {
+            $user = \Auth::user();
 
             if ($user->is_admin) {
-                $users = User::all();
-                // 👇 Trả về view chứa bảng user
-                return view('admin.user.index', compact('users'));
-                // return $user;
+            // Redirect admin sang trang quản lý user
+                return redirect()->route('admin.users');
             } else {
                 // 👇 Trả về trang người dùng thường, hoặc redirect
                 return redirect('/')->with('message', 'Đăng nhập thành công');
